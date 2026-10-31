@@ -16,7 +16,7 @@ public class ConsoleInput {
      */
     public Optional<String> readQuery() {
         while (true) {
-            System.out.println("Введите поисковый запрос (exit для выхода)");
+            System.out.print("Введите поисковый запрос (exit для выхода): ");
 
             if (!scanner.hasNextLine()) {
                 return Optional.empty();
