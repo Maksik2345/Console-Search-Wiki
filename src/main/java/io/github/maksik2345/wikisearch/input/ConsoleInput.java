@@ -1,4 +1,4 @@
-package io.github.maxik2345.wikisearch.input;
+package io.github.maksik2345.wikisearch.input;
 
 import java.util.Optional;
 import java.util.Scanner;

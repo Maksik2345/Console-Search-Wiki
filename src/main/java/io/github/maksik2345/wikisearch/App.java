@@ -1,6 +1,6 @@
-package io.github.maxik2345.wikisearch;
+package io.github.maksik2345.wikisearch;
 
-import io.github.maxik2345.wikisearch.input.ConsoleInput;
+import io.github.maksik2345.wikisearch.input.ConsoleInput;
 
 import java.util.Optional;
 
