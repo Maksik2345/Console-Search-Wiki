@@ -41,6 +41,29 @@ public class ConsoleInput {
      * Возвращает номер статьи от 1 до max, или 0 — «назад к поиску».
      */
     public int readChoice(int max) {
-        return 0;
+        String hint = "от 1 до " + max + ", 0 — новый поиск";
+
+        while (true) {
+            System.out.print("Выберите номер статьи (" + hint + "): ");
+
+            if (!scanner.hasNextLine()) {
+                return 0;
+            }
+
+            String line = scanner.nextLine().trim();
+
+            try {
+                int answer = Integer.parseInt(line);
+
+                if (answer < 0 || answer > max) {
+                    System.out.println("Некорректный ввод. Введите число " + hint + ".");
+                    continue;
+                }
+
+                return answer;
+            } catch (NumberFormatException e) {
+                System.out.println("Некорректный ввод. Введите число " + hint + ".");
+            }
+        }
     }
 }
