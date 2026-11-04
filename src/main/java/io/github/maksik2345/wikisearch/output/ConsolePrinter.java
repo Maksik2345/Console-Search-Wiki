@@ -2,6 +2,7 @@ package io.github.maksik2345.wikisearch.output;
 
 import io.github.maksik2345.wikisearch.model.Article;
 
+import java.net.URI;
 import java.util.List;
 
 public class ConsolePrinter {
@@ -40,5 +41,9 @@ public class ConsolePrinter {
                 .replaceAll("<[^>]+>", "")
                 .replace("&quot;", "\"")
                 .replace("&amp;", "&");
+    }
+
+    public void printLink(URI uri) {
+        System.out.println(uri);
     }
 }
