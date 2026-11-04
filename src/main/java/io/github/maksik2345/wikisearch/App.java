@@ -4,6 +4,7 @@ import io.github.maksik2345.wikisearch.api.WikipediaApiException;
 import io.github.maksik2345.wikisearch.api.WikipediaClient;
 import io.github.maksik2345.wikisearch.input.ConsoleInput;
 import io.github.maksik2345.wikisearch.model.Article;
+import io.github.maksik2345.wikisearch.output.ConsolePrinter;
 import io.github.maksik2345.wikisearch.parser.SearchResponseParser;
 
 import java.util.List;
@@ -13,11 +14,18 @@ public class App {
     private final ConsoleInput input;
     private final WikipediaClient wikipediaClient;
     private final SearchResponseParser parser;
+    private final ConsolePrinter consolePrinter;
 
-    public App(ConsoleInput input, WikipediaClient wikipediaClient, SearchResponseParser parser) {
+    public App(
+            ConsoleInput input,
+            WikipediaClient wikipediaClient,
+            SearchResponseParser parser,
+            ConsolePrinter consolePrinter
+    ) {
         this.input = input;
         this.wikipediaClient = wikipediaClient;
         this.parser = parser;
+        this.consolePrinter = consolePrinter;
     }
 
     public void run() {
@@ -33,18 +41,25 @@ public class App {
                 List<Article> articles = parser.parse(json);
 
                 if (articles.isEmpty()) {
-                    System.out.println("Ничего не найдено");
+                    consolePrinter.printNoResults();
                     continue;
                 }
 
-                for (Article article : articles) {
-                    System.out.println(article.title());
+                consolePrinter.printResults(articles);
+
+                int choiceNumber = input.readChoice(articles.size());
+
+                if (choiceNumber == 0) {
+                    continue;
                 }
+
+                Article article = articles.get(choiceNumber - 1);
+                System.out.printf("Вы выбрали: %s (id %d)%n", article.title(), article.pageId());
             } catch (WikipediaApiException e) {
-                System.out.println(e.getMessage());
+                consolePrinter.printError(e.getMessage());
             }
         }
 
-        System.out.println("Программа завершилась");
+        consolePrinter.printGoodbye();
     }
 }
