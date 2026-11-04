@@ -2,7 +2,6 @@ package io.github.maksik2345.wikisearch;
 
 import com.google.gson.Gson;
 import io.github.maksik2345.wikisearch.api.WikipediaClient;
-import io.github.maksik2345.wikisearch.browser.BrowserException;
 import io.github.maksik2345.wikisearch.browser.BrowserOpener;
 import io.github.maksik2345.wikisearch.browser.ConsoleLinkPrinter;
 import io.github.maksik2345.wikisearch.browser.DesktopBrowserOpener;

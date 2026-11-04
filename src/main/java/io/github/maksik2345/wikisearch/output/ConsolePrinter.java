@@ -9,14 +9,14 @@ public class ConsolePrinter {
 
     public void printResults(List<Article> articles) {
         System.out.println("Найдено статей: " + articles.size());
-        System.out.println("");
+        System.out.println();
 
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
 
             System.out.printf("%d. %s%n", i + 1, article.title());
-            System.out.println("    " + cleanSnippet(articles.get(i).snippet()) + " ...");
-            System.out.println("");
+            System.out.println("    " + cleanSnippet(article.snippet()) + " ...");
+            System.out.println();
         }
     }
 
@@ -32,6 +32,10 @@ public class ConsolePrinter {
         System.out.println("Программа завершилась");
     }
 
+    public void printLink(URI uri) {
+        System.out.println("Откройте статью вручную: " + uri);
+    }
+
     private String cleanSnippet(String snippet) {
         if (snippet == null) {
             return "";
@@ -41,9 +45,5 @@ public class ConsolePrinter {
                 .replaceAll("<[^>]+>", "")
                 .replace("&quot;", "\"")
                 .replace("&amp;", "&");
-    }
-
-    public void printLink(URI uri) {
-        System.out.println(uri);
     }
 }
