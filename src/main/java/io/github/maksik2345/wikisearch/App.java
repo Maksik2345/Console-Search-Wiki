@@ -2,6 +2,8 @@ package io.github.maksik2345.wikisearch;
 
 import io.github.maksik2345.wikisearch.api.WikipediaApiException;
 import io.github.maksik2345.wikisearch.api.WikipediaClient;
+import io.github.maksik2345.wikisearch.browser.BrowserException;
+import io.github.maksik2345.wikisearch.browser.BrowserOpener;
 import io.github.maksik2345.wikisearch.input.ConsoleInput;
 import io.github.maksik2345.wikisearch.model.Article;
 import io.github.maksik2345.wikisearch.output.ConsolePrinter;
@@ -15,17 +17,19 @@ public class App {
     private final WikipediaClient wikipediaClient;
     private final SearchResponseParser parser;
     private final ConsolePrinter consolePrinter;
+    private final BrowserOpener browserOpener;
 
     public App(
             ConsoleInput input,
             WikipediaClient wikipediaClient,
             SearchResponseParser parser,
-            ConsolePrinter consolePrinter
-    ) {
+            ConsolePrinter consolePrinter,
+            BrowserOpener browserOpener) {
         this.input = input;
         this.wikipediaClient = wikipediaClient;
         this.parser = parser;
         this.consolePrinter = consolePrinter;
+        this.browserOpener = browserOpener;
     }
 
     public void run() {
@@ -54,7 +58,14 @@ public class App {
                 }
 
                 Article article = articles.get(choiceNumber - 1);
-                System.out.printf("Вы выбрали: %s (id %d)%n", article.title(), article.pageId());
+
+                try {
+                    browserOpener.open(article.url());
+                } catch (BrowserException e) {
+                    consolePrinter.printError(e.getMessage());
+                    consolePrinter.printLink(article.url());
+                }
+
             } catch (WikipediaApiException e) {
                 consolePrinter.printError(e.getMessage());
             }
